@@ -16,7 +16,7 @@ import Turnstile
 open class AccessTokenStore : MongoDBStORM {
 
 	/// The token itself.
-	var token: String = ""
+	var id: String = ""
 
 	/// The userid relates to the Users object UniqueID
 	var userid: String = ""
@@ -31,7 +31,7 @@ open class AccessTokenStore : MongoDBStORM {
 	var idle: Int = 86400 // 86400 seconds = 1 day
 
 	/// Collection name used to store Tokens
-	override init() {
+	override public init() {
 		super.init()
 		_collection = "tokens"
 	}
@@ -39,7 +39,7 @@ open class AccessTokenStore : MongoDBStORM {
 
 	/// Set incoming data from database to object
 	open override func to(_ this: StORMRow) {
-		if let val = this.data["token"]		{ token		= val as! String }
+		if let val = this.data["_id"]		{ id		= val as! String }
 		if let val = this.data["userid"]	{ userid	= val as! String }
 		if let val = this.data["created"]	{ created	= val as! Int }
 		if let val = this.data["updated"]	{ updated	= val as! Int }
@@ -80,16 +80,16 @@ open class AccessTokenStore : MongoDBStORM {
 	/// Triggers creating a new token.
 	public func new(_ u: String) -> String {
 		let rand = URandom()
-		token = rand.secureToken
-		token = token.replacingOccurrences(of: "-", with: "a")
+		id = rand.secureToken
+		id = id.replacingOccurrences(of: "-", with: "a")
 		userid = u
 		created = now()
 		updated = now()
 		do {
-			try create()
+			try save()
 		} catch {
 			print(error)
 		}
-		return token
+		return id
 	}
 }

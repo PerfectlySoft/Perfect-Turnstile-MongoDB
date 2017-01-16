@@ -80,7 +80,7 @@ open class AuthAccount : MongoDBStORM, Account {
 	func make() throws {
 		do {
 			password = BCrypt.hash(password: password)
-			try create() // can't use save as the id is populated
+			try save() // can't use save as the id is populated
 		} catch {
 			print(error)
 		}
