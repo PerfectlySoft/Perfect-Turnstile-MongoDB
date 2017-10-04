@@ -105,7 +105,7 @@ public class AuthHandlersWeb {
 	/// Handles the request for a "logout" route
 	open static func logoutHandler(request: HTTPRequest, _ response: HTTPResponse) {
 		response.addCookie(HTTPCookie(name: "TurnstileSession",
-									value: "\(request.user.authDetails?.sessionID)",
+		                              value: "\(request.user.authDetails?.sessionID ?? "")",
 									domain: nil,
 									expires: .relativeSeconds(-1),
 									path: "/",

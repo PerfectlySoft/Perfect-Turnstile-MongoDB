@@ -248,7 +248,7 @@ public class AuthHandlersJSON {
 		var resp = [String: String]()
 
 		resp["authenticated"] = "AUTHED: \(request.user.authenticated)"
-		resp["authDetails"] = "DETAILS: \(request.user.authDetails)"
+		resp["authDetails"] = "DETAILS: \(request.user.authDetails.debugDescription)"
 
 
 		do {
